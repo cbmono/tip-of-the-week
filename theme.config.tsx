@@ -8,7 +8,7 @@ const config: DocsThemeConfig = {
     content: "Edit this page on GitHub",
   },
   // docsRepositoryBase: "https://tip-of-the-week.vercel.app",
-  docsRepositoryBase: "https://github.com/cbmono/tip-of-the-week/tree/main/",
+  docsRepositoryBase: "https://github.com/cbmono/tip-of-the-week/tree/main",
   faviconGlyph: "✦",
   logo: (
     <span>
