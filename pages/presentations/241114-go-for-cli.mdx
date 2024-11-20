@@ -1,0 +1,109 @@
+# Title
+
+> Author: [Thilina](thn@alteos.com)  
+> Date: 14.11.2024
+
+[Go](https://go.dev/) for developing CLI tools.
+
+---
+
+## CLI tools
+
+- CLI tools are the applications we use in our terminals.
+- CLI tools can be chained together and used in scripts.
+    * Ex: `yq -o=json '.projects | .[] | .dir' atlantis.yaml | jq -c --slurp`
+- They can be useful when working with server environments.
+
+---
+
+## Why Go for CLI tools
+
+- Go is a fairly simple language.
+- Great standard library.
+- Compiled language and does not require a runtime.
+- Can be cross compiled from one platform to another.
+- There are other libraries that provide further capabilities like flag parsing and shell auto complete for CLIs.
+    * Ex:
+	    - https://github.com/spf13/cobra
+	    - https://github.com/charmbracelet/bubbletea
+
+## Resources
+
+### Sample code
+
+`main.go` file
+```go
+package main
+
+import (
+	"encoding/json"
+	"flag"
+	"fmt"
+	"os"
+)
+
+func parseFlags() string {
+	inputFile := flag.String("input", "", "Input file name")
+	flag.Parse()
+	return *inputFile
+}
+
+func main() {
+	inputFile := parseFlags()
+
+	if inputFile == "" {
+		fmt.Println("No configuration file given")
+		fmt.Println("Usage: app -input <file-name>")
+		os.Exit(1)
+	}
+
+	type user struct {
+		Name    string `json:"name"`
+		Address string `json:"address"`
+	}
+
+	var userData []user
+
+	content, err := os.ReadFile(inputFile)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	err = json.Unmarshal(content, &userData)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	for _, u := range userData {
+		fmt.Printf("%s : %s\n", u.Name, u.Address)
+	}
+}
+```
+
+`users.json` file
+```json
+[
+  {
+    "name": "user 1",
+    "address": "address of user 1"
+  },
+  {
+    "name": "user 2",
+    "address": "address of user 2"
+  },
+  {
+    "name": "user 3",
+    "address": "address of user 3"
+  },
+  {
+    "name": "user 4",
+    "address": "address of user 4"
+  },
+  {
+    "name": "user 5",
+    "address": "address of user 5"
+  }
+]
+```
