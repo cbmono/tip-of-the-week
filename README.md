@@ -28,12 +28,12 @@ brew install pnpm
 ```
 
 ### 1. Local Development
-
+#### Install dependencies (only the first time)
 ```bash
-# Install dependencies (only the first time)
 pnpm i
-
-# Run the local development server
+```
+#### Run the local development server
+```bash
 pnpm dev
 ```
 
