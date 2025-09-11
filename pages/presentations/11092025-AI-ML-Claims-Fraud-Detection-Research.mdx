@@ -1,0 +1,119 @@
+import { Callout } from "nextra/components";
+
+# AI & Machine Learning in Insurance Claims
+
+> Author: [Hammad](mailto:hammad@alteos.com)  
+> Date: 11.09.2025
+
+Fraud detection and automation are critical in insurance claim handling. Manual reviews are slow and often miss subtle behavioral patterns, especially when fraudsters exploit multiple products. Combining **AI and ML** enables faster, consistent claims processing and detection of cross-product anomalies.
+
+<Callout type="info">
+ML enables automated fraud detection in e-bike, electronics, Hausrat, and pet claims, reducing false positives and improving efficiency.
+</Callout>
+
+The most common fraud types across these products are:
+
+| Fraud Type                       | Products Affected                 | Description / Example                                           | Detection Approach                                                          |
+| -------------------------------- | --------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Fake or staged claims**        | E-bike, Electronics, Hausrat, Pet | Claiming theft, damage, or treatment that never happened        | Klippa tamper detection, duplicate check, ML anomaly detection              |
+| **Duplicate claims**             | E-bike, Electronics, Pet          | Same item claimed multiple times across policies or submissions | OCR + metadata matching, ML for repeat patterns                             |
+| **Invoice/receipt manipulation** | E-bike, Electronics, Hausrat      | Altered prices, fake documents, Photoshop edits                 | Klippa DocHorizon, OCR verification, metadata validation                    |
+| **Inflated claims**              | Hausrat, Pet, Electronics         | Exaggerated value of item or service                            | ML anomaly detection on claim amounts, historical comparison                |
+| **Cross-product patterns**       | All                               | Fraud across multiple products from the same customer/household | Graph analytics, ML combining claims features, sequential pattern detection |
+
+---
+
+## Tools Before the Deep Learning ML Stage
+
+Before diving into **Deep Learning ML**, it’s important to highlight the tools that handle the *input quality* and *early detection* stages:
+
+- **Klippa DocHorizon API**  
+  Detects tampering, duplicate documents, and manipulated receipts; runs OCR and validates extracted metadata. It’s often the *first layer of defense* before the ML models.  
+
+- **Tesseract.js**  
+  A lightweight OCR library for Node.js. It can complement Klippa for custom use cases or for data enrichment on receipts and invoices.  
+
+- **ExifTool**  
+  Extracts and analyzes metadata (timestamps, GPS, device info) from uploaded images or PDFs. This helps flag inconsistencies before claims reach ML.  
+
+- **In-House Rules & Preprocessing**  
+  Custom rules (e.g., frequency thresholds) and pseudonymization/masking for GDPR compliance prepare structured, trustworthy data for ML pipelines.  
+
+<Callout type="info">
+Klippa and related OCR/metadata tools form the first layer of fraud screening — improving the quality of data before TensorFlow models evaluate behavioral patterns.
+</Callout>
+
+---
+## TensorFlow - Deep Learning ML Or Pytorch
+
+TensorFlow is an **open-source platform for machine learning and deep learning created by Google**.  
+It’s basically a big toolkit of software components that make it easier for developers and data scientists to build, train, and deploy models.  
+
+### What It’s Used For
+
+- **Neural networks / deep learning:** image recognition, text classification, fraud detection.  
+- **Classical ML:** regression, clustering, anomaly detection.  
+- **Custom pipelines:** combine structured (tables) and unstructured data (text, images).  
+
+### Why It’s Popular
+
+- Works with **Python, JavaScript (TensorFlow.js), C++, Java**, and others.  
+- Has prebuilt modules like **Keras** (for high-level model building).  
+- Scales from a laptop experiment to full production.  
+- Big ecosystem: visualization (**TensorBoard**), model serving, mobile support, etc. 
+
+## Why TensorFlow Is Key for Fraud Detection
+
+TensorFlow (and TensorFlow.js for Node.js) is used to **detect behavioral fraud patterns** that are difficult to catch with rules alone. Its key roles include:
+
+- **Learning from historical claims:** Identifies patterns across multiple products and users.  
+- **Detecting anomalies:** Flags unusual claim amounts, frequencies, and sequences.  
+- **Cross-product analysis:** Combines structured data (amounts, counts) with unstructured data (OCR text, Klippa flags).  
+- **Sequential and network patterns:** Finds progressive or connected frauds over time, like repeated small claims leading to larger fraud.  
+- **Continuous improvement:** Models can be retrained with new reviewer labels, making detection adaptive.  
+
+<Callout type="info">
+ML (Machine Learning) enables scalable, data-driven fraud detection that goes beyond simple rules, ensuring high accuracy, reduced false positives, and continuous learning.
+</Callout>
+
+## TensorFlow vs PyTorch for Fraud Detection Pipelines
+
+| Feature / Requirement                         | TensorFlow                          | PyTorch                               | Notes for Fraud Detection Pipeline |
+|-----------------------------------------------|-------------------------------------|--------------------------------------|----------------------------------|
+| **Ease of Use for Node.js Integration**       | TensorFlow.js supports Node.js natively | Limited; requires model export via ONNX | TensorFlow.js can run models directly in Node.js preprocessing apps |
+| **Production Deployment**                     | Strong: TF Serving, TF Lite, TF.js  | Moderate: TorchServe, ONNX export needed | TensorFlow is easier for multi-product, real-time claims pipelines |
+| **Pretrained Models / Libraries**            | Extensive (TF Hub, Keras)           | Strong (PyTorch Hub)                  | Both have models, but TensorFlow offers more production-ready options |
+| **Cross-Platform Support**                     | Excellent: server, mobile, browser  | Good via TorchScript / ONNX           | For insurance apps that may run on browser/Node.js, TensorFlow wins |
+| **Anomaly Detection / Graph & Sequential Patterns** | TensorFlow & Keras + TF Addons     | PyTorch + PyTorch Geometric / TorchVision | Both capable; TensorFlow has integrated tools for structured + unstructured data |
+| **Experimentation & Research**               | Moderate                           | Excellent                             | PyTorch is more flexible for quickly testing new fraud detection ML architectures |
+| **Visualization & Monitoring**               | TensorBoard                         | TorchVision / TensorBoard compatible | TensorBoard integrates easily with TensorFlow pipelines |
+| **GPU / TPU Acceleration**                   | Excellent (TPU ready)               | Excellent (GPU ready)                 | For large claims datasets, both are performant; TensorFlow supports TPUs for faster training |
+| **Community & Support**                        | Enterprise & research, large tutorials | Research-heavy, active in academia  | TensorFlow better for enterprise deployments; PyTorch better for cutting-edge models |
+
+<Callout type="info">
+**Recommendation:** For Node.js + Klippa + multi-product insurance claim pipelines, TensorFlow (with TensorFlow.js) is usually the better choice due to easier integration, deployment, and production scaling. PyTorch can be used for prototyping advanced models before deployment.
+</Callout>
+---
+
+## Pipeline Insights
+
+- **Preprocessing & Enrichment:** OCR, metadata extraction, pseudonymization/masking for GDPR compliance.  
+- **Klippa DocHorizon API:** Detects tampering, duplicate documents, validates OCR and metadata, supports multi-document types.  
+- **In-House ML & Rules:** Structured ML (claim frequency, amount anomalies), graph analytics for cross-product fraud, NLP on free-text, custom thresholds.  
+- **Decisioning Layer:** Auto-approve, manual review, reject, reason codes/explainability.  
+- **Feedback & Retraining:** Stores reviewer labels to continuously improve models and thresholds.  
+
+The **mini preprocessing Node.js app** I built here, handles receipt OCR, metadata extraction, tamper detection, duplicate detection, and prepares structured data for ML or API input. This serves as the **foundation to start with looking for an automated, adaptive fraud detection pipeline** across multiple insurance products.
+
+---
+
+## Useful Links
+
+- [Klippa DocHorizon API](https://dochorizon.klippa.com/docs/api/getting-started)  
+- [Tesseract.js](https://github.com/naptha/tesseract.js)  
+- [ExifTool](https://exiftool.org/)
+- [TensorFlow](https://www.tensorflow.org/)
+- [Pytorch](https://pytorch.org/)
+
+---
+
